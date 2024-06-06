@@ -123,45 +123,23 @@ void loop() {
     }
   }
 
-  display.setCursor(0, 0); // Adjust the cursor position as needed
-  display.print(average);
-  
-  if (state == LOW){
-    if (!buttonHeld){
-      buttonPressTime = millis(); // Capture button press time
-      buttonHeld = true;
-    }
-  } else{
-    if (buttonHeld && (millis() - buttonPressTime >= 3000)){
-      display.clearDisplay();
+  display.clearDisplay();
       double x = average;
       double y = constant * pow(x, exponent);
       //= 62956x^-1.569
       display.setCursor(0, 0);
       display.print(average);
+      display.print("  Lx");
       display.setCursor(0, 16);
       display.print(y);
-      display.print("   Mil");
+      display.print("  Bill");
       Serial.println(y);
-      Serial.println(" | ");
-      Serial.println("HOLD");
-      
-      playTone(1000, 200);
-      unsigned long startTime = millis();
-    while (millis() - startTime < 10000) {
-        display.display();
-        delay(100); // Adjust delay based on desired update frequency
-    }
-    }
-    buttonHeld = false;
-  }
+  
   // Update the display with the new data
   display.display();
-  Serial.print(state);
-  Serial.print(" | ");
   Serial.println(average);
   display.clearDisplay();
-  //delay(1000);
+  delay(500);
 }
 
 void playTone(int frequency, int duration) {
